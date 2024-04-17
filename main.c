@@ -39,21 +39,28 @@ struct produto criar_produto(int id, char nome[], float valor){
     c.valor = valor;
     strcpy(c.nome, nome);
     
-    printf("Novo produto:\n %d\t %s\t %.2f\n", c.id, c.nome, c.valor);
+    //printf("Novo produto:\n %d\t %s\t %.2f\n", c.id, c.nome, c.valor);
     
     return c;
 }
 
 //função principal
 int main() {
-    char *lista_produtos[] = {"sopa", "gato"};
-    int produtos_tds[3] = {1, 3.5};
+    char *produtos_nome[] = {"sopa", "gato"};
+    float produtos_valor[] = {3.5, 45.5};
+    int produtos_qtd = sizeof(produtos_nome) / sizeof(produtos_nome[0]);
     
+    struct produto produtos_tds[produtos_qtd]; // Array para armazenar os produtos
     
-    struct produto produto_sopa = criar_produto(produtos_tds[0], lista_produtos[0], produtos_tds[1]);
+    printf("Novo produto:\n");
+    printf("---------------------\n");
     
-    printf("Novo produto:\n %d\t %s\t %.2f", produto_sopa.id, produto_sopa.nome, produto_sopa.valor);
+    for (int i = 0; i < produtos_qtd; i++) {
+        produtos_tds[i] = criar_produto(i, produtos_nome[i], produtos_valor[i]);
+        printf("| %d   %s   R$ %.2f  |\n", produtos_tds[i].id, produtos_tds[i].nome, produtos_tds[i].valor);
+    }
     
+    printf("--------------------\n");
 
     return 0;
 }
