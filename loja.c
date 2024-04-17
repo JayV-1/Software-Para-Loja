@@ -1,36 +1,44 @@
 #include <stdio.h>
+#include <conio.h>
 #include <string.h>
 #include <locale.h>
+#include <stdlib.h>
 
-typedef struct{
+typedef struct comprador{
     char nome[40];
     int dia;
-    
-}comprador;
+    char dado;
+};
 
-typedef struct{
+typedef struct produto{
     int cod;
     char nomeprod[40];
     float preco;
     int quant;
     int punit;
     int nvendas;
-}produto;
+};
 
-typedef struct{
-    char nome[40];
-    int dia;
-    int cod;
-    char nomeprod[40];
-    float preco;
-    int quant;
-    int punit;
-    int nvendas;
-}venda;
-
+void nova_venda(FILE *arq){
+	struct comprador cliente;
+		printf("\nQual seu nome?");
+        scanf("%s", cliente.nome);
+        
+        gets(cliente.nome);
+        
+        cliente.dado = fputs(cliente.nome, arq);
+        if (cliente.dado == EOF){
+        	printf("erro na abertura");
+		} else {
+			printf("dados cadastrados");
+		}
+		
+        
+}
 int main(){
+	FILE *arq;
     setlocale(LC_ALL, "Portuguese");
-    comprador cliente;
+    struct comprador cliente;
     
     int op;
     printf("Olá, qual operação você deseja fazer?\n [1]-Venda\n [2]-Relatótio diario\n [3]-Relatório mensal");
@@ -38,27 +46,18 @@ int main(){
     
     switch (op){
         case 1:
+            arq = fopen("teste.txt", "a");
+            if (arq == NULL) {
+        		printf("ERRO! na abertura");
+			}
+            nova_venda(arq);
+            fclose(arq);
             
-            printf("\nQual seu nome?");
-            scanf("%c", &cliente.nome);
+            arq = fopen("teste.txt", "r");
             
+            fclose(arq);
             
-		    printf("O que você deseja comprar?");
 		    
-		    FILE *arq;
-		    arq = fopen("loja_roupa.dat", "a+b");
-		    
-		    if (arq == NULL){
-		        printf("arquivo aberto");
-		    } else {
-		        printf("\n\n ERRO!");
-		        system("pause");
-		        exit(1);
-		    }
-		    
-		    fwrite(&cliente.nome, sizeof(char), 40, arq);
-		    
-		    fclose (arq);
 	    break;
 	    
 	    case 2:
