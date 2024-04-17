@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include <string.h> 
+#include <string.h>
+
 //criar hora que 
 struct hora {
     int horas,
@@ -45,11 +46,11 @@ struct produto criar_produto(int id, char nome[], float valor){
 
 //função principal
 int main() {
-    int lista_produtos[5];
+    char lista_produtos[] = "sopa";
+    int produtos_tds[3] = {1, 3.5};
     
-    //struct compra compra_feita;
     
-    struct produto produto_sopa = criar_produto(1, "sopa", 3.5);
+    struct produto produto_sopa = criar_produto(produtos_tds[0], lista_produtos, produtos_tds[1]);
     
     printf("Novo produto:\n %d\t %s\t %.2f", produto_sopa.id, produto_sopa.nome, produto_sopa.valor);
     
