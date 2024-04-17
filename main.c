@@ -37,6 +37,18 @@ struct produto criar_produto(int id, char nome[], float valor){
     return c;
 }
 
+void listar_produtos(struct produto lista[], int tam){
+    
+    // Imprime os produtos
+    printf("Lista de produtos:\n");
+    printf("--------------------\n");
+    for (int i = 0; i < tam; i++) {
+        printf("|| %d | %-40s | R$ %.2f ||\n", lista[i].id, lista[i].nome, lista[i].valor);
+    }
+    printf("--------------------\n");
+    
+}
+
 int main() {
     
     char *produtos_nome[] = {"Men's denim shorts",
@@ -107,13 +119,7 @@ int main() {
         produtos_tds[i] = criar_produto(i+1, produtos_nome[i], produtos_valor[i]);
     }
     
-    // Imprime os produtos
-    printf("Lista de produtos:\n");
-    printf("--------------------\n");
-    for (int i = 0; i < produtos_qtd; i++) {
-        printf("|| %d | %-40s | R$ %.2f ||\n", produtos_tds[i].id, produtos_tds[i].nome, produtos_tds[i].valor);
-    }
-    printf("--------------------\n");
+    listar_produtos(produtos_tds, produtos_qtd);
 
     return 0;
 }
