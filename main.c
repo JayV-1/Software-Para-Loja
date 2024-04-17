@@ -30,7 +30,7 @@ struct compra {
 };
 
 //função criadora de produtos
-void criar_produto(int id, char nome[], float valor){
+struct produto criar_produto(int id, char nome[], float valor){
     
     struct produto c;
     
@@ -38,18 +38,20 @@ void criar_produto(int id, char nome[], float valor){
     c.valor = valor;
     strcpy(c.nome, nome);
     
-    printf("Novo produto\n %d\t %s\t %f", c.id, c.nome, c.valor);
+    printf("Novo produto:\n %d\t %s\t %.2f\n", c.id, c.nome, c.valor);
     
+    return c;
 }
 
 //função principal
 int main() {
     int lista_produtos[5];
     
-    struct compra compra_feita;
+    //struct compra compra_feita;
     
-    criar_produto(1, "sopa", 3.5);
+    struct produto produto_sopa = criar_produto(1, "sopa", 3.5);
     
+    printf("Novo produto:\n %d\t %s\t %.2f", produto_sopa.id, produto_sopa.nome, produto_sopa.valor);
     
 
     return 0;
