@@ -39,7 +39,7 @@ int main(){
     switch (op){
         case 1:
             
-            printf("Qual seu nome?");
+            printf("\nQual seu nome?");
             scanf("%c", &cliente.nome);
             
             
@@ -47,6 +47,14 @@ int main(){
 		    
 		    FILE *arq;
 		    arq = fopen("loja_roupa.dat", "a+b");
+		    
+		    if (arq == NULL){
+		        printf("arquivo aberto");
+		    } else {
+		        printf("\n\n ERRO!");
+		        system("pause");
+		        exit(1);
+		    }
 		    
 		    fwrite(&cliente.nome, sizeof(char), 40, arq);
 		    
@@ -64,5 +72,3 @@ int main(){
 
     return 0;
 }
-    
-
