@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct produto {
+    int cod;
+    char nome[40];
+    float preco;
+    int quant;
+    int punit;
+    int nvendas;
+};
+
+void consultarProdutos(FILE *arq) {
+    struct produto prod;
+
+    rewind(arq); // Retorna ao início do arquivo
+
+    printf("Produtos cadastrados:\n\n");
+    printf("Código | Nome                     | Preço  | Quantidade | Preço Unit. | Nº Vendas\n");
+    printf("-------|--------------------------|--------|------------|-------------|----------\n");
+
+    while (fread(&prod, sizeof(struct produto), 1, arq) == 1) {
+        printf("%6d | %-25s | %6.2f | %10d | %11d | %8d\n", prod.cod, prod.nome, prod.preco, prod.quant, prod.punit, prod.nvendas);
+    }
+
+    printf("\n");
+}
+
+int main(void) {
+    FILE *arq;
+
+    arq = fopen("produtos.dat", "rb"); // Abre o arquivo para ler dados binários
+
+    if (arq == NULL) {
+        printf("\n\nErro: Falha na tentativa de abertura da arquivo\n");
+        return 1; // Retorna 1 para indicar erro
+    }
+
+    consultarProdutos(arq);
+
+    fclose(arq); // Fecha o arquivo após o uso
+
+    return 0;
+}
