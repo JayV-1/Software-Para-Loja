@@ -30,9 +30,9 @@ struct produto {
 
 struct compras {
     struct data data;
-    struct produto produtos[999];
+    struct produto produtos[90];
     
-    int disconto;
+    int desconto;
     float valor;
 };
 
@@ -136,6 +136,8 @@ void listar_produtos(struct produto produtos_tds[], int produtos_qtd){
     // Imprime os produtos
     printf("\n\t\t\tLista de produtos:\n\n");
     printf("==============================================================\n");
+    printf("|| id | nome | Valor (R$) ||\n");
+    printf("--------------------------------------------------------------\n");
     for (int i = 0; i < produtos_qtd; i++) {
         printf("|| %d | %-40s | R$ %.2f ||\n", produtos_tds[i].id, produtos_tds[i].nome, produtos_tds[i].valor);
     }
@@ -146,6 +148,9 @@ void listar_produtos(struct produto produtos_tds[], int produtos_qtd){
 void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     int id_pedido;
     int quantidade;
+    int quantidade_total;
+    int valor_total;
+    
     struct compras compra;
     
     //listar os produtos
@@ -154,7 +159,7 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     printf("\n\n");
     
     
-    printf("\t\tQual produto voce quer levar?\n\t~> ");
+    printf("\t\tQual produto voce quer levar?\n\tdigite o id do produto que gostaria de levar ~> ");
     scanf("%d", &id_pedido);
     
     printf("\t\tQuantos voce quer levar?\n\t~> ");
@@ -162,10 +167,23 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     
     compra.produtos[0] = produtos_tds[id_pedido -1];
     compra.produtos[0].quantidade = quantidade;
+    compra.desconto = 1/10;
     
     printf("\n\n\t~~~~~~Carrinho~~~~~~~\n"
     "|| %d | %-40s | R$ %.2f unidade | %d un.| R$%.2f ||\n", 
     compra.produtos[0].id, compra.produtos[0].nome, compra.produtos[0].valor, compra.produtos[0].quantidade, compra.produtos[0].valor * compra.produtos[0].quantidade);
+    
+    for (int i = 0; i < produtos_qtd; i++){
+        quantidade_total += compra.produtos[i].quantidade;
+        valor_total += compra.produtos[i].valor * compra.produtos[i].quantidade;
+    }
+    
+    if (quantidade_total >= 3){
+        compra.valor = valor_total * compra.desconto;
+    }
+    
+    
+    
 }
 
 //Função que lida com input do usuario
