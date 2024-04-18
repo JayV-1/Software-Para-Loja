@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct produto {
+    int cod;
+    char nome[40];
+    float preco;
+    int quant;
+    int punit;
+    int nvendas;
+};
+
+void incluirProduto(FILE *arq) {
+    struct produto prod; // Variável para armazenar os dados de um produto
+    char resp = 's';
+
+    do {
+        printf("\nCódigo do Produto: ");
+        scanf("%d", &prod.cod);
+        fflush(stdin);
+
+        printf("\nNome do Produto: ");
+        scanf("%39s", prod.nome); // Limita a entrada de caracteres para 39 para evitar estouro de buffer
+        fflush(stdin);
+
+        printf("\nQuantidade: ");
+        scanf("%d", &prod.quant);
+        fflush(stdin);
+
+        printf("\nPreço Unitário: ");
+        scanf("%f", &prod.preco);
+        fflush(stdin);
+
+        printf("\nProduto cadastrado com sucesso!");
+
+        fwrite(&prod, sizeof(struct produto), 1, arq); // Escreve os dados do produto no arquivo
+
+        printf("\nDeseja cadastrar outro produto? (s/n): ");
+        scanf(" %c", &resp); // Espaço em branco antes de %c para consumir o caractere de nova linha deixado pelo scanf anterior
+    } while (resp == 's');
+}
+
+int main(void) {
+    FILE *arq;
+
+    arq = fopen("produtos.dat", "ab+"); // Abre o arquivo para adicionar e ler dados binários
+
+    if (arq == NULL) {
+        printf("\n\nErro: Falha na tentativa de abertura da arquivo\n");
+        return 1; // Retorna 1 para indicar erro
+    }
+
+    incluirProduto(arq);
+
+    fclose(arq); // Fecha o arquivo após o uso
+
+    return 0;
+}
