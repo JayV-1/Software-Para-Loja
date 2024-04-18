@@ -1,4 +1,5 @@
 #include <stdio.h>
+<<<<<<< Updated upstream
 #include <string.h>
 #include <locale.h>
 
@@ -7,6 +8,12 @@ struct hora {
     int horas,
     minutos;
 };
+=======
+#include <stdlib.h>
+#include <string.h>
+#include <locale.h>
+#include <time.h> 
+>>>>>>> Stashed changes
 
 // Struct para a data da compra
 struct data {
@@ -114,6 +121,88 @@ void listar_produtos(){
     }
     printf("==============================================================\n");
     
+<<<<<<< Updated upstream
+=======
+    //struct compras compra;
+    
+    //listar os produtos
+    printf("\n\n");
+    listar_produtos(produtos_tds, produtos_qtd);
+    printf("\n\n");
+    
+    
+    for(int i = 0; i < 30; i++){
+        printf("\tQual produto voce quer levar?\t(digite o id do produto que gostaria de levar)\n~> ");
+        scanf("%d", &id_pedido);
+        
+        printf("\t\tQuantos voce quer levar?\n~> ");
+        scanf("%d", &quantidade);
+        
+        compra.produtos[i] = produtos_tds[id_pedido -1];
+        compra.produtos[i].quantidade = quantidade;
+        compra.produtos[i].popularidade += quantidade;
+        
+        printf("\n\n\t~~~~~~Carrinho~~~~~~~\n");
+        
+        for(int j = 0; j <= i; j++){
+            
+            printf("|| %d | %-40s | R$ %.2f unidade | %d un.| R$%.2f ||\n", 
+            compra.produtos[j].id, compra.produtos[j].nome, 
+            compra.produtos[j].valor, 
+            compra.produtos[j].quantidade, 
+            compra.produtos[j].valor * compra.produtos[j].quantidade);
+            
+            quantidade_total += compra.produtos[i].quantidade;
+            compra.valor += compra.produtos[i].valor * compra.produtos[i].quantidade;
+        }
+        
+        
+        printf("\n\tSelecionar mais?\ty(1) | n(0)\n~>");
+        scanf("%d", &flag);
+        produtos_qtd = i+1;
+        if (flag == 0){
+            
+            break;
+        }
+        
+    }
+    
+    if (quantidade_total >= 3){
+        compra.valor = compra.valor * 9/10;
+    }
+    
+    printf("\n\n\t~~~~~~~~~~~~~~~~~~~~~Checkout~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("|| nome | Valor (R$) | Quantidade | Valor parcial|\n");
+    for(int j = 0; j < produtos_qtd; j++){
+        
+        printf("|| %-40s | R$ %.2f unidade | %d un.| R$%.2f ||\n", 
+        compra.produtos[j].nome, 
+        compra.produtos[j].valor, 
+        compra.produtos[j].quantidade, 
+        compra.produtos[j].valor * compra.produtos[j].quantidade);
+    }
+    
+    printf("Total: R$%.2f\t", compra.valor);
+    
+    for (int i = 0; i < 4; i++){
+            data_random[i] = (rand() % (data_info[i+1] - 0 + 1)) + 0;
+    }
+    
+    compra.data.ano = 2024;
+    compra.data.mes = data_random[0];
+    compra.data.dia = data_random[1];
+    compra.data.hora = data_random[2];
+    compra.data.min = data_random[3];
+    
+    printf("Data: %d/%d/%d %d:%d\n\n", 
+        compra.data.dia,
+        compra.data.mes,
+        compra.data.ano,
+        compra.data.hora,
+        compra.data.min);
+        
+        //return compra;
+>>>>>>> Stashed changes
 }
 
 //Função que lida com input do usuario
@@ -138,7 +227,23 @@ void handler_usuario(){
             nova_venda(arq);
             fclose(arq);
             
+<<<<<<< Updated upstream
             arq = fopen("teste.txt", "r");
+=======
+            for(int i = 0; i < 49; i++){
+                int resp;
+                    
+    		    //fazer a compra
+    		    handler_compra(produtos_tds, produtos_qtd, compra, i);
+    		    printf("Obrigado pela compra, gostaria de comprar mais?\ty(1) | n(0)\n~>");
+    		    scanf("%d", &resp);
+    		    //printf("%f", compra.valor);
+    		    
+    		    if(resp == 0){
+    		            break;
+    		    }
+            }
+>>>>>>> Stashed changes
             
             fclose(arq);*/
             
