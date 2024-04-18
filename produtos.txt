@@ -1,0 +1,50 @@
+Men's denim shorts|79.90
+Cotton cargo shorts|59.90
+Polyester sports shorts|49.90
+Men's twill shorts|69.90
+Linen women's shorts|89.90
+Linen women's blazer|159.90
+Corduroy blazer|179.90
+Slim fit tailored blazer|199.90
+Casual cotton blazer|129.90
+Men's corduroy blazer|179.90
+Printed cropped blouse|39.90
+Long sleeve blouse|49.90
+Off-shoulder blouse|59.90
+High-neck knit blouse|79.90
+Cropped knit blouse|69.90
+Slim fit social shirt|119.90
+Women's denim shirt|79.90
+Silk women's shirt|129.90
+Men's linen casual shirt|99.90
+Men's polo shirt|79.90
+Basic t-shirt|29.90
+Printed t-shirt|39.90
+Men's tank top|29.90
+Tie-dye unisex t-shirt|49.90
+Cotton unisex t-shirt|29.90
+Skinny jeans|99.90
+Sweatpants|69.90
+Men's cargo pants|89.90
+Women's tailored pants|149.90
+Women's flare pants|89.90
+Silk women's chemise|79.90
+Women's wool coat|129.90
+Sports windbreaker jacket|109.90
+Unisex windbreaker jacket|89.90
+Unisex bomber jacket|119.90
+Synthetic leather jacket|199.90
+Fitness leggings with print|49.90
+Hooded sweatshirt|69.90
+Front print sweatshirt|79.90
+Pantacourt jumpsuit|169.90
+Denim jumpsuit|119.90
+Basic men's tank top|19.90
+Midi pleated skirt|89.90
+Black pencil skirt|59.90
+Denim shorts|59.90
+Floral dress|149.90
+Long party dress|249.90
+Floral summer dress|89.90
+Short party dress|129.90
+Black sheath dress|99.90
