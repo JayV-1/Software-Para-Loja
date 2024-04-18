@@ -1,27 +1,17 @@
 #include <stdio.h>
-<<<<<<< Updated upstream
-#include <string.h>
-#include <locale.h>
-
-// Criar hora
-struct hora {
-    int horas,
-    minutos;
-};
-=======
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
 #include <time.h> 
->>>>>>> Stashed changes
 
 // Struct para a data da compra
 struct data {
-    int day, 
-    month, 
-    year;
+    int min;
+    int hora;
+    int dia;
+    int mes; 
+    int ano;
     
-    struct hora hora_compra;
 };
 
 // Struct para os produtos que serão vendidos
@@ -29,8 +19,77 @@ struct produto {
     int id;
     char nome[100];
     float valor;
+    int quantidade;
     int popularidade;
 };
+
+struct compras {
+    struct data data;
+    struct produto produtos[90];
+    float valor;
+};
+
+struct dados_diarios {
+    struct data data;
+    struct compras compras;
+    float faturamento;
+    char melhor_produto[100];
+    char pior_produto[100];
+};
+
+struct dados_mensais {
+    struct data data;
+    struct dados_diarios diario[1];
+};
+
+struct dados_anuais {
+    struct dados_mensais mensal[12];
+};
+
+
+
+/*numero aleatorio
+float num_random(int lower, int upper, int n) { 
+    n = (rand() % (upper - lower + 1)) + lower;
+    return n;
+};*/
+
+//Função Quick Sort para ordernar.
+void Ordenacao(struct compras a[], int esq, int dir) {
+    int i = esq;
+    int j = dir;
+    float temp = a[(esq + dir) / 2].valor; // Escolhendo o elemento do meio como pivô
+    float aux;
+
+    while (i <= j) 
+	{
+        while (a[i].valor > temp) 
+		{
+            i++;
+        }
+        while (a[j].valor < temp) 
+		{
+            j--;
+        }
+        if (i <= j)
+		{
+            aux = a[i].valor;
+            a[i].valor = a[j].valor;
+            a[j].valor = aux;
+            i++;
+            j--;
+        }
+    }
+
+    if (esq < j) 
+	{
+        Ordenacao(a, esq, j);
+    }
+    if (i < dir) 
+	{
+        Ordenacao(a, i, dir);
+    }
+}
 
 // Função criadora de produtos
 struct produto criar_produto(int id, char nome[], float valor){
@@ -45,7 +104,7 @@ struct produto criar_produto(int id, char nome[], float valor){
 }
 
 //imprimir lista de produtos
-void listar_produtos(){
+void listar_produtos(struct produto produtos_tds[], int produtos_qtd){
     
     char *produtos_nome[] = {"Men's denim shorts",
     "Cotton cargo shorts",
@@ -104,9 +163,9 @@ void listar_produtos(){
         119.90, 19.90, 89.90, 59.90, 59.90, 149.90, 249.90, 89.90, 129.90, 99.90}; // lista de preços
 
     //definir a quantidade de produtos que vamos criar
-    int produtos_qtd = sizeof(produtos_nome) / sizeof(produtos_nome[0]);
+    //int produtos_qtd = sizeof(produtos_nome) / sizeof(produtos_nome[0]);
     
-    struct produto produtos_tds[produtos_qtd]; // Array para armazenar os produtos
+    //struct produto produtos_tds[produtos_qtd]; // Array para armazenar os produtos
     
     // Preenche o array de produtos
     for (int i = 0; i < produtos_qtd; i++) {
@@ -116,14 +175,26 @@ void listar_produtos(){
     // Imprime os produtos
     printf("\n\t\t\tLista de produtos:\n\n");
     printf("==============================================================\n");
+    printf("|| id | nome | Valor (R$) ||\n");
+    printf("--------------------------------------------------------------\n");
     for (int i = 0; i < produtos_qtd; i++) {
         printf("|| %d | %-40s | R$ %.2f ||\n", produtos_tds[i].id, produtos_tds[i].nome, produtos_tds[i].valor);
     }
     printf("==============================================================\n");
+}
+
+//Função que lida com as compras
+struct compras handler_compra(struct produto produtos_tds[], int produtos_qtd, int dia){
+    int id_pedido;
+    int quantidade;
+    int quantidade_total;
+    int valor_total;
+    int flag;
+    int num = 0;
+    int data_info[5] = {2024, 12, 30, 23, 59};
+    int data_random[4];
     
-<<<<<<< Updated upstream
-=======
-    //struct compras compra;
+    struct compras compra;
     
     //listar os produtos
     printf("\n\n");
@@ -182,15 +253,15 @@ void listar_produtos(){
         compra.produtos[j].valor * compra.produtos[j].quantidade);
     }
     
-    printf("Total: R$%.2f\t", compra.valor);
+    
     
     for (int i = 0; i < 4; i++){
-            data_random[i] = (rand() % (data_info[i+1] - 0 + 1)) + 0;
+            data_random[i] = (rand() % (data_info[i+1] - 1 + 1)) + 1;
     }
     
     compra.data.ano = 2024;
-    compra.data.mes = data_random[0];
-    compra.data.dia = data_random[1];
+    compra.data.mes = 4;
+    compra.data.dia = dia;
     compra.data.hora = data_random[2];
     compra.data.min = data_random[3];
     
@@ -200,14 +271,20 @@ void listar_produtos(){
         compra.data.ano,
         compra.data.hora,
         compra.data.min);
-        
-        //return compra;
->>>>>>> Stashed changes
+    
+    printf("Total: R$%.2f\t", compra.valor);
+    
+    return compra;
 }
 
 //Função que lida com input do usuario
-void handler_usuario(){
+void handler_usuario(int lista[]){
     int op;
+    int produtos_qtd = 50;
+    struct produto produtos_tds[produtos_qtd];
+    struct compras *compra = malloc(50 * sizeof(struct compras));
+    struct dados_diarios nove;
+    struct dados_mensais Abril;
     
     printf(
     "\nOi, o que deseja fazer?\n\n"
@@ -215,85 +292,68 @@ void handler_usuario(){
     "\t[2]-Relatótio diario\n"
     "\t[3]-Relatório mensal\n"
     "\t[4]-Sair\n"
-    "\t\t~> ");
+    "~> ");
     scanf("%d", &op);
     
     switch (op){
         case 1:
-            /*arq = fopen("teste.txt", "a");
-            if (arq == NULL) {
-        		printf("ERRO! na abertura");
-			}
-            nova_venda(arq);
-            fclose(arq);
             
-<<<<<<< Updated upstream
-            arq = fopen("teste.txt", "r");
-=======
             for(int i = 0; i < 49; i++){
                 int resp;
                     
     		    //fazer a compra
-    		    handler_compra(produtos_tds, produtos_qtd, compra, i);
-    		    printf("Obrigado pela compra, gostaria de comprar mais?\ty(1) | n(0)\n~>");
+    		    compra[i] = handler_compra(produtos_tds, produtos_qtd, 1);
+    		    printf("\nObrigado pela compra, gostaria de comprar mais?\ty(1) | n(0)\n~>");
     		    scanf("%d", &resp);
-    		    //printf("%f", compra.valor);
+    		    printf("%.2f", compra[i].valor);
     		    
     		    if(resp == 0){
+    		        Ordenacao(compra, 0, 50);
+    		        printf("nao quebrou");
     		            break;
     		    }
             }
->>>>>>> Stashed changes
             
-            fclose(arq);*/
-            
-            printf("\n\n");
-		    listar_produtos();
-		    printf("\n\n");
-		    
-		    handler_compra();
-		    
-		    handler_usuario();
+		    //voltar para o menu
+		    handler_usuario(lista);
 		    break;
-	        
 	    
 	    case 2:
 	        printf("\n\n");
 		    printf("Work in Progress...");
 		    printf("\n\n");
-	        handler_usuario();
+		    
+		    //voltar para o menu
+	        handler_usuario(lista);
 	        break;
 
 	    case 3:
 	        printf("\n\n");
             printf("Work in Progress...");
             printf("\n\n");
-            handler_usuario();
+            handler_usuario(lista);
             break;
         
         case 4:
             break;
-        
-        default:
-            printf("\nOpção inválida, por favor, tente novamente.\n\n");
-            handler_usuario();
-            break;
-        
     }
     
 }
 
-//Função que lida com as compras
-void handler_compra(){
+//Função para controlar dados de compras
+void controle_compras(){
     
 }
 
+
+
 //Função principal
 int main() {
+    int lista_diaria[1];
     
     setlocale(LC_ALL, "Portuguese");
     
-    handler_usuario();
+    handler_usuario(lista_diaria);
 
     return 0;
 }
