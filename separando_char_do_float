@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <string.h>
+#include <locale.h>
+#include <stdlib.h>
+#include <ctype.h> // Adicionando cabeçalho para isalpha
+
+typedef struct {
+    int id;
+    char nome[100];
+    float valor;
+    int quant;
+    int popularidade;
+    char c;
+    char linha[100];
+} Produtos;
+
+void trazer_do_arquivo(FILE *arq) {
+    Produtos produtos;
+    
+    // Loop para ler caractere por caractere do arquivo
+    while ((produtos.c = fgetc(arq)) != EOF) {
+        if (isalpha(produtos.c)) { // Verifica se o caractere é uma letra
+            printf("%c", produtos.c);
+        } else {
+            printf("\n");
+        }
+    }
+}
+
+int main() {
+    FILE *arq;
+    setlocale(LC_ALL, "Portuguese");
+
+    arq = fopen("produtos.txt", "r");
+    if (arq == NULL) {
+        printf("Erro na abertura do arquivo.\n");
+        return 1;
+    }
+    trazer_do_arquivo(arq);
+    fclose(arq);
+
+    return 0;
+}
