@@ -52,6 +52,8 @@ struct dados_anuais {
     
 };
 
+
+
 // Função criadora de produtos
 struct produto criar_produto(int id, char nome[], float valor){
     
@@ -161,10 +163,10 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     
     
     for(int i = 0; i < 999; i++){
-        printf("\t\tQual produto voce quer levar?\n\tdigite o id do produto que gostaria de levar ~> ");
+        printf("\t\tQual produto voce quer levar?\t(digite o id do produto que gostaria de levar)\n~> ");
         scanf("%d", &id_pedido);
         
-        printf("\t\tQuantos voce quer levar?\n\t~> ");
+        printf("\t\tQuantos voce quer levar?\n~> ");
         scanf("%d", &quantidade);
         
         compra.produtos[i] = produtos_tds[id_pedido -1];
@@ -183,7 +185,7 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
         }
         
         
-        printf("\n\tQuer comprar mais?\n[1/0]~>");
+        printf("\n\tQuer comprar mais?\ty(1) | n(0)\n~>");
         scanf("%d", &flag);
         produtos_qtd = i+1;
         if (flag == 0){
@@ -200,21 +202,21 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     }
     
     if (quantidade_total >= 3){
-        compra.valor = compra.valor * compra.desconto;
+        compra.valor = compra.valor * 9/10;
     }
     
     printf("\n\n\t~~~~~~Carrinho~~~~~~~\n");
-    printf("|| id | nome | Valor (R$) | Quantidade | Valor parcial|\n");
+    printf("|| nome | Valor (R$) | Quantidade | Valor parcial|\n");
     for(int j = 0; j < produtos_qtd; j++){
         
-        printf("|| %d | %-40s | R$ %.2f unidade | %d un.| R$%.2f ||\n", 
-        compra.produtos[j].id, compra.produtos[j].nome, 
+        printf("|| %-40s | R$ %.2f unidade | %d un.| R$%.2f ||\n", 
+        compra.produtos[j].nome, 
         compra.produtos[j].valor, 
         compra.produtos[j].quantidade, 
         compra.produtos[j].valor * compra.produtos[j].quantidade);
     }
     
-    printf("Total: R$%.2f", compra.valor);
+    printf("Total: R$%.2f\n", compra.valor);
 }
 
 //Função que lida com input do usuario
@@ -274,6 +276,8 @@ void handler_usuario(){
 void controle_compras(){
     
 }
+
+
 
 //Função principal
 int main() {
