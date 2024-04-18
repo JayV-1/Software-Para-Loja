@@ -84,10 +84,11 @@ void Ordenacao(float a[], int esq, int dir) {
         Ordenacao(a, i, dir);
     }
     
-    for (int i =0; i < 6; i++){
+    /*for (int i =0; i < 6; i++){
         printf("%.2f", a[i]);
         printf("\n");
     }
+    printf("\n");*/
 }
 
 
@@ -334,10 +335,11 @@ struct compras handler_compra_rand(struct produto produtos_tds[], int produtos_q
 }
 
 //Função que lida com input do usuario
-void handler_usuario(float valores[], float fatur_brut[], float fatur_mes){
+void handler_usuario(float valores[], float fatur_brut[],float fatur_mes){
     int op;
     int produtos_qtd = 50;
-    int posicao[6];
+    int clientes = 6;
+    int produtos;
     
     struct produto produtos_tds[produtos_qtd];
     struct compras *compra = malloc(50 * sizeof(struct compras));
@@ -348,7 +350,8 @@ void handler_usuario(float valores[], float fatur_brut[], float fatur_mes){
     "\t[1]-Realizar compra\n"
     "\t[2]-Relatótio diario\n"
     "\t[3]-Relatório mensal\n"
-    "\t[4]-Sair\n"
+    "\t[4]-Cadastrar produto\n"
+    "\t[5]-Sair\n"
     "~> ");
     scanf("%d", &op);
     
@@ -357,32 +360,39 @@ void handler_usuario(float valores[], float fatur_brut[], float fatur_mes){
             
             for(int i = 0; i < 49; i++){
                 int resp;
-                    
+            
     		    //fazer a compra
     		    compra[i] = handler_compra(produtos_tds, produtos_qtd, 1);
     		    valores[i] = compra[i].valor;
+    		    
+    		    for (int n = 0; n < 15; n++){
+    		        produtos += compra[i].produtos[i].quantidade;
+    		    }
     		    printf("\nObrigado pela compra, gostaria de comprar mais?\ty(1) | n(0)\n~>");
     		    scanf("%d", &resp);
     		    
     		    if(resp == 0){
     		        for (int j = 0; j < 3; j++){
-        		        for(int k = i+1; k <= 6; k++){
+        		        for(int k = i+1; k <= clientes+i; k++){
                                 
                 		    //fazer a compra
                 		    compra[k] = handler_compra_rand(produtos_tds, produtos_qtd, j);
                 		    valores[k] = compra[k].valor;
                 		    fatur_brut[j] += valores[k];
+                		    
+                		    for (int n = 0; n < 15; n++){
+                		        produtos += compra[k].produtos[k].quantidade;
+                		    }
         		        }
-        		        
-        		       Ordenacao(valores, 0, 6);
     		        }
     		        
-    		        
-    		        
-    		        
-    		            break;
+    		        break;
     		    }
             }
+            
+	        
+	       
+            Ordenacao(valores, 0, 6);
             
 		    //voltar para o menu
 		    handler_usuario(valores, fatur_brut, fatur_mes);
@@ -391,8 +401,16 @@ void handler_usuario(float valores[], float fatur_brut[], float fatur_mes){
 	    case 2:
 	        printf("\n\n");
 	        
+	        printf("lista de compras feitas hoje:");
+	        for (int i = 0; i < clientes; i++){
+                printf("R$ %.2f", valores[i]);
+                printf("\n");
+            }
+            
+            printf("%d clientes fizeram compras hoje!\n", clientes);
+	        
 		    for (int i = 0; i < 3; i++){
-                printf("\nBruto diario dia(%d):%.2f", i, fatur_brut[i]);
+                printf("\nBruto diario dia(%d):R$ %.2f", i, fatur_brut[i]);
                 printf("\n");
             }
             
@@ -404,29 +422,27 @@ void handler_usuario(float valores[], float fatur_brut[], float fatur_mes){
 
 	    case 3:
 	        printf("\n\n");
-            
+            float j;
             for (int i = 0; i < 3; i++){
-                float j;
+                
                 j += fatur_brut[i];
-                printf("Bruto mensal R$%.2f\n", j);
+                
             }
-            
+            printf("Bruto mensal R$%.2f\n", j);
             printf("\n\n");
             handler_usuario(valores, fatur_brut, fatur_mes);
             break;
         
         case 4:
+            
+            handler_usuario(valores, fatur_brut, fatur_mes);
+            break;
+        case 5:
             break;
     }
     
 }
 
-
-
-//Função para controlar dados de compras
-void controle_compras(){
-    
-}
 
 
 
