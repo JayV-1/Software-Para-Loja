@@ -47,6 +47,7 @@ struct dados_anuais {
 };
 
 
+<<<<<<< Updated upstream
 
 /*numero aleatorio
 float num_random(int lower, int upper, int n) { 
@@ -54,6 +55,8 @@ float num_random(int lower, int upper, int n) {
     return n;
 };*/
 
+=======
+>>>>>>> Stashed changes
 //Função Quick Sort para ordernar.
 void Ordenacao(struct compras a[], int esq, int dir) {
     int i = esq;
@@ -91,6 +94,11 @@ void Ordenacao(struct compras a[], int esq, int dir) {
     }
 }
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 // Função criadora de produtos
 struct produto criar_produto(int id, char nome[], float valor){
     
@@ -305,11 +313,19 @@ void handler_usuario(int lista[]){
     		    compra[i] = handler_compra(produtos_tds, produtos_qtd, 1);
     		    printf("\nObrigado pela compra, gostaria de comprar mais?\ty(1) | n(0)\n~>");
     		    scanf("%d", &resp);
+<<<<<<< Updated upstream
     		    printf("%.2f", compra[i].valor);
     		    
     		    if(resp == 0){
     		        Ordenacao(compra, 0, 50);
     		        printf("nao quebrou");
+=======
+    		    
+    		    if(resp == 0){
+    		        printf("nao quebrou");
+    		        Ordenacao(compra, 0, 50);
+    		        
+>>>>>>> Stashed changes
     		            break;
     		    }
             }
