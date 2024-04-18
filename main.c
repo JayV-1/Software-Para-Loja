@@ -64,7 +64,7 @@ struct produto criar_produto(int id, char nome[], float valor){
 }
 
 //imprimir lista de produtos
-void listar_produtos(){
+void listar_produtos(struct produto produtos_tds[], int produtos_qtd){
     
     char *produtos_nome[] = {"Men's denim shorts",
     "Cotton cargo shorts",
@@ -123,9 +123,9 @@ void listar_produtos(){
         119.90, 19.90, 89.90, 59.90, 59.90, 149.90, 249.90, 89.90, 129.90, 99.90}; // lista de preços
 
     //definir a quantidade de produtos que vamos criar
-    int produtos_qtd = sizeof(produtos_nome) / sizeof(produtos_nome[0]);
+    //int produtos_qtd = sizeof(produtos_nome) / sizeof(produtos_nome[0]);
     
-    struct produto produtos_tds[produtos_qtd]; // Array para armazenar os produtos
+    //struct produto produtos_tds[produtos_qtd]; // Array para armazenar os produtos
     
     // Preenche o array de produtos
     for (int i = 0; i < produtos_qtd; i++) {
@@ -139,18 +139,17 @@ void listar_produtos(){
         printf("|| %d | %-40s | R$ %.2f ||\n", produtos_tds[i].id, produtos_tds[i].nome, produtos_tds[i].valor);
     }
     printf("==============================================================\n");
-    
-    return struct produtos_tds[];
 }
 
 //Função que lida com as compras
-void handler_compra(){
+void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     int id_pedido;
     int quantidade;
+    struct compras compra;
     
     //listar os produtos
     printf("\n\n");
-    struct produto produtos_tds[50] = listar_produtos();
+    listar_produtos(produtos_tds, produtos_qtd);
     printf("\n\n");
     
     
@@ -160,12 +159,14 @@ void handler_compra(){
     printf("\t\tQuantos voce quer levar?\n\t~> ");
     scanf("%d", &quantidade);
     
-    c.data.dia;
+    compra.data.dia;
 }
 
 //Função que lida com input do usuario
 void handler_usuario(){
     int op;
+    int produtos_qtd = 50;
+    struct produto produtos_tds[produtos_qtd];
     
     printf(
     "\nOi, o que deseja fazer?\n\n"
@@ -180,7 +181,7 @@ void handler_usuario(){
         case 1:
 
 		    //fazer a compra
-		    handler_compra();
+		    handler_compra(produtos_tds, produtos_qtd);
 		    
 		    //voltar para o menu
 		    handler_usuario();
