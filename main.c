@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <locale.h>
+#include <stdbool.h>
 
 // Criar hora
 struct hora {
@@ -10,11 +11,11 @@ struct hora {
 
 // Struct para a data da compra
 struct data {
-    int day, 
-    month, 
-    year;
+    int dia;
+    int mes; 
+    int ano;
     
-    struct hora hora_compra;
+    struct hora hora;
 };
 
 // Struct para os produtos que serão vendidos
@@ -22,7 +23,32 @@ struct produto {
     int id;
     char nome[100];
     float valor;
+    int quantidade;
     int popularidade;
+};
+
+struct compras {
+    struct data data;
+    struct produto produtos;
+    
+    int disconto;
+    float valor;
+};
+
+struct dados_diarios {
+    struct data mes;
+    struct compras compras_dia;
+    float faturamento;
+    char melhor_produto[100];
+    char pior_produto[100];
+};
+
+struct dados_mensais {
+    
+};
+
+struct dados_anuais {
+    
 };
 
 // Função criadora de produtos
@@ -114,6 +140,27 @@ void listar_produtos(){
     }
     printf("==============================================================\n");
     
+    return struct produtos_tds[];
+}
+
+//Função que lida com as compras
+void handler_compra(){
+    int id_pedido;
+    int quantidade;
+    
+    //listar os produtos
+    printf("\n\n");
+    struct produto produtos_tds[50] = listar_produtos();
+    printf("\n\n");
+    
+    
+    printf("\t\tQual produto voce quer levar?\n\t~> ");
+    scanf("%d", &id_pedido);
+    
+    printf("\t\tQuantos voce quer levar?\n\t~> ");
+    scanf("%d", &quantidade);
+    
+    c.data.dia;
 }
 
 //Função que lida com input do usuario
@@ -131,31 +178,20 @@ void handler_usuario(){
     
     switch (op){
         case 1:
-            /*arq = fopen("teste.txt", "a");
-            if (arq == NULL) {
-        		printf("ERRO! na abertura");
-			}
-            nova_venda(arq);
-            fclose(arq);
-            
-            arq = fopen("teste.txt", "r");
-            
-            fclose(arq);*/
-            
-            printf("\n\n");
-		    listar_produtos();
-		    printf("\n\n");
-		    
+
+		    //fazer a compra
 		    handler_compra();
 		    
+		    //voltar para o menu
 		    handler_usuario();
 		    break;
-	        
 	    
 	    case 2:
 	        printf("\n\n");
 		    printf("Work in Progress...");
 		    printf("\n\n");
+		    
+		    //voltar para o menu
 	        handler_usuario();
 	        break;
 
@@ -169,17 +205,17 @@ void handler_usuario(){
         case 4:
             break;
         
-        default:
+        /*default:
             printf("\nOpção inválida, por favor, tente novamente.\n\n");
             handler_usuario();
-            break;
+            break;*/
         
     }
     
 }
 
-//Função que lida com as compras
-void handler_compra(){
+//Função para controlar dados de compras
+void controle_compras(){
     
 }
 
