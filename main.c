@@ -38,75 +38,7 @@ struct produto criar_produto(int id, char nome[], float valor){
 }
 
 //imprimir lista de produtos
-void listar_produtos(struct produto lista[], int tam){
-    
-    // Imprime os produtos
-    printf("Lista de produtos:\n");
-    printf("--------------------\n");
-    for (int i = 0; i < tam; i++) {
-        printf("|| %d | %-40s | R$ %.2f ||\n", lista[i].id, lista[i].nome, lista[i].valor);
-    }
-    printf("--------------------\n");
-    
-}
-
-void handler_usuario(struct produto lista_produtos[], int tamanho){
-    int op;
-    
-    printf(
-    "\nOlá, qual operação você deseja fazer?\n\n"
-    "\t[1]-Realizar compra\n"
-    "\t[2]-Relatótio diario\n"
-    "\t[3]-Relatório mensal\n"
-    "\t[4]-Sair\n"
-    "\t\t~> ");
-    scanf("%d", &op);
-    
-    switch (op){
-        case 1:
-            /*arq = fopen("teste.txt", "a");
-            if (arq == NULL) {
-        		printf("ERRO! na abertura");
-			}
-            nova_venda(arq);
-            fclose(arq);
-            
-            arq = fopen("teste.txt", "r");
-            
-            fclose(arq);*/
-            
-            printf("\n\n");
-		    listar_produtos(lista_produtos, tamanho);
-		    printf("\n\n");
-		    
-		    handler_usuario(lista_produtos, tamanho);
-		    break;
-	        
-	    
-	    case 2:
-	        printf("\n\n");
-		    printf("Work in Progress...");
-		    printf("\n\n");
-	        handler_usuario(lista_produtos, tamanho);
-	        break;
-
-	    case 3:
-	        printf("\n\n");
-            printf("Work in Progress...");
-            printf("\n\n");
-            handler_usuario(lista_produtos, tamanho);
-            break;
-        
-        case 4:
-            break;
-        
-    }
-    
-}
-
-int main() {
-    
-    setlocale(LC_ALL, "Portuguese");
+void listar_produtos(){
     
     char *produtos_nome[] = {"Men's denim shorts",
     "Cotton cargo shorts",
@@ -167,8 +99,6 @@ int main() {
     //definir a quantidade de produtos que vamos criar
     int produtos_qtd = sizeof(produtos_nome) / sizeof(produtos_nome[0]);
     
-    
-    
     struct produto produtos_tds[produtos_qtd]; // Array para armazenar os produtos
     
     // Preenche o array de produtos
@@ -176,7 +106,89 @@ int main() {
         produtos_tds[i] = criar_produto(i+1, produtos_nome[i], produtos_valor[i]);
     }
     
-    handler_usuario(produtos_tds, produtos_qtd);
+    // Imprime os produtos
+    printf("\n\t\t\tLista de produtos:\n\n");
+    printf("==============================================================\n");
+    for (int i = 0; i < produtos_qtd; i++) {
+        printf("|| %d | %-40s | R$ %.2f ||\n", produtos_tds[i].id, produtos_tds[i].nome, produtos_tds[i].valor);
+    }
+    printf("==============================================================\n");
+    
+}
+
+//Função que lida com input do usuario
+void handler_usuario(){
+    int op;
+    
+    printf(
+    "\nOi, o que deseja fazer?\n\n"
+    "\t[1]-Realizar compra\n"
+    "\t[2]-Relatótio diario\n"
+    "\t[3]-Relatório mensal\n"
+    "\t[4]-Sair\n"
+    "\t\t~> ");
+    scanf("%d", &op);
+    
+    switch (op){
+        case 1:
+            /*arq = fopen("teste.txt", "a");
+            if (arq == NULL) {
+        		printf("ERRO! na abertura");
+			}
+            nova_venda(arq);
+            fclose(arq);
+            
+            arq = fopen("teste.txt", "r");
+            
+            fclose(arq);*/
+            
+            printf("\n\n");
+		    listar_produtos();
+		    printf("\n\n");
+		    
+		    handler_compra();
+		    
+		    handler_usuario();
+		    break;
+	        
+	    
+	    case 2:
+	        printf("\n\n");
+		    printf("Work in Progress...");
+		    printf("\n\n");
+	        handler_usuario();
+	        break;
+
+	    case 3:
+	        printf("\n\n");
+            printf("Work in Progress...");
+            printf("\n\n");
+            handler_usuario();
+            break;
+        
+        case 4:
+            break;
+        
+        default:
+            printf("\nOpção inválida, por favor, tente novamente.\n\n");
+            handler_usuario();
+            break;
+        
+    }
+    
+}
+
+//Função que lida com as compras
+void handler_compra(){
+    
+}
+
+//Função principal
+int main() {
+    
+    setlocale(LC_ALL, "Portuguese");
+    
+    handler_usuario();
 
     return 0;
 }
