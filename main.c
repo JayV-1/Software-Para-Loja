@@ -26,6 +26,7 @@ struct produto {
 struct compras {
     struct data data;
     struct produto produtos[90];
+    int quantidade_prod;
     float valor;
 };
 
@@ -33,6 +34,7 @@ struct dados_diarios {
     struct data data;
     struct compras compras;
     float faturamento;
+    int produtos_quantidade;
     char melhor_produto[100];
     char pior_produto[100];
 };
@@ -42,43 +44,32 @@ struct dados_mensais {
     struct dados_diarios diario[1];
 };
 
-struct dados_anuais {
-    struct dados_mensais mensal[12];
-};
 
-
-<<<<<<< Updated upstream
-
-/*numero aleatorio
-float num_random(int lower, int upper, int n) { 
-    n = (rand() % (upper - lower + 1)) + lower;
-    return n;
-};*/
-
-=======
->>>>>>> Stashed changes
 //Função Quick Sort para ordernar.
-void Ordenacao(struct compras a[], int esq, int dir) {
+void Ordenacao(float a[], int esq, int dir) {
+    
+    //printf("nao quebrou");
     int i = esq;
     int j = dir;
-    float temp = a[(esq + dir) / 2].valor; // Escolhendo o elemento do meio como pivô
+    float temp = a[(esq + dir) / 2]; // Escolhendo o elemento do meio como pivô
     float aux;
 
     while (i <= j) 
 	{
-        while (a[i].valor > temp) 
+        while (a[i] > temp) 
 		{
             i++;
         }
-        while (a[j].valor < temp) 
+        while (a[j] < temp) 
 		{
             j--;
         }
         if (i <= j)
 		{
-            aux = a[i].valor;
-            a[i].valor = a[j].valor;
-            a[j].valor = aux;
+            aux = a[i];
+            a[i] = a[j];
+            a[j] = aux;
+            
             i++;
             j--;
         }
@@ -92,13 +83,14 @@ void Ordenacao(struct compras a[], int esq, int dir) {
 	{
         Ordenacao(a, i, dir);
     }
+    
+    for (int i =0; i < 6; i++){
+        printf("%.2f", a[i]);
+        printf("\n");
+    }
 }
 
-<<<<<<< Updated upstream
-=======
 
-
->>>>>>> Stashed changes
 // Função criadora de produtos
 struct produto criar_produto(int id, char nome[], float valor){
     
@@ -191,6 +183,8 @@ void listar_produtos(struct produto produtos_tds[], int produtos_qtd){
     printf("==============================================================\n");
 }
 
+
+
 //Função que lida com as compras
 struct compras handler_compra(struct produto produtos_tds[], int produtos_qtd, int dia){
     int id_pedido;
@@ -273,26 +267,81 @@ struct compras handler_compra(struct produto produtos_tds[], int produtos_qtd, i
     compra.data.hora = data_random[2];
     compra.data.min = data_random[3];
     
-    printf("Data: %d/%d/%d %d:%d\n\n", 
+    printf("Data: %d/%d/%d %d:%d\t", 
         compra.data.dia,
         compra.data.mes,
         compra.data.ano,
         compra.data.hora,
         compra.data.min);
     
-    printf("Total: R$%.2f\t", compra.valor);
+    printf("Total: R$%.2f\n\n", compra.valor);
+    
+    return compra;
+}
+
+struct compras handler_compra_rand(struct produto produtos_tds[], int produtos_qtd, int dia){
+    int id_pedido;
+    int quantidade;
+    int quantidade_total;
+    int valor_total;
+    int flag;
+    int num = 0;
+    int data_info[5] = {2024, 12, 30, 23, 59};
+    int data_random[4];
+    
+    struct compras compra;
+    
+    
+    for(int i = 0; i < 30; i++){
+        
+        compra.produtos[i] = produtos_tds[(rand() % (50 - 1 + 1)) + 1 -1];
+        compra.produtos[i].quantidade = (rand() % (10 - 1 + 1)) + 1;
+        compra.produtos[i].popularidade += quantidade;
+        
+        for(int j = 0; j <= i; j++){
+            
+
+            
+            quantidade_total += compra.produtos[i].quantidade;
+            compra.valor += compra.produtos[i].valor * compra.produtos[i].quantidade;
+        }
+        
+        flag = 0;
+        produtos_qtd = i+1;
+        if (flag == 0){
+            
+            break;
+        }
+        
+    }
+    
+    if (quantidade_total >= 3){
+        compra.valor = compra.valor * 9/10;
+    }
+    
+    
+    for (int i = 0; i < 4; i++){
+            data_random[i] = (rand() % (data_info[i+1] - 1 + 1)) + 1;
+    }
+    
+    compra.data.ano = 2024;
+    compra.data.mes = 4;
+    compra.data.dia = dia;
+    compra.data.hora = data_random[2];
+    compra.data.min = data_random[3];
     
     return compra;
 }
 
 //Função que lida com input do usuario
-void handler_usuario(int lista[]){
+void handler_usuario(float valores[], float fatur_brut[], float fatur_mes){
     int op;
     int produtos_qtd = 50;
+    int posicao[6];
+    
     struct produto produtos_tds[produtos_qtd];
     struct compras *compra = malloc(50 * sizeof(struct compras));
-    struct dados_diarios nove;
-    struct dados_mensais Abril;
+
     
     printf(
     "\nOi, o que deseja fazer?\n\n"
@@ -311,43 +360,59 @@ void handler_usuario(int lista[]){
                     
     		    //fazer a compra
     		    compra[i] = handler_compra(produtos_tds, produtos_qtd, 1);
+    		    valores[i] = compra[i].valor;
     		    printf("\nObrigado pela compra, gostaria de comprar mais?\ty(1) | n(0)\n~>");
     		    scanf("%d", &resp);
-<<<<<<< Updated upstream
-    		    printf("%.2f", compra[i].valor);
     		    
     		    if(resp == 0){
-    		        Ordenacao(compra, 0, 50);
-    		        printf("nao quebrou");
-=======
-    		    
-    		    if(resp == 0){
-    		        printf("nao quebrou");
-    		        Ordenacao(compra, 0, 50);
+    		        for (int j = 0; j < 3; j++){
+        		        for(int k = i+1; k <= 6; k++){
+                                
+                		    //fazer a compra
+                		    compra[k] = handler_compra_rand(produtos_tds, produtos_qtd, j);
+                		    valores[k] = compra[k].valor;
+                		    fatur_brut[j] += valores[k];
+        		        }
+        		        
+        		       Ordenacao(valores, 0, 6);
+    		        }
     		        
->>>>>>> Stashed changes
+    		        
+    		        
+    		        
     		            break;
     		    }
             }
             
 		    //voltar para o menu
-		    handler_usuario(lista);
+		    handler_usuario(valores, fatur_brut, fatur_mes);
 		    break;
 	    
 	    case 2:
 	        printf("\n\n");
-		    printf("Work in Progress...");
+	        
+		    for (int i = 0; i < 3; i++){
+                printf("\nBruto diario dia(%d):%.2f", i, fatur_brut[i]);
+                printf("\n");
+            }
+            
 		    printf("\n\n");
 		    
 		    //voltar para o menu
-	        handler_usuario(lista);
+	        handler_usuario(valores, fatur_brut, fatur_mes);
 	        break;
 
 	    case 3:
 	        printf("\n\n");
-            printf("Work in Progress...");
+            
+            for (int i = 0; i < 3; i++){
+                float j;
+                j += fatur_brut[i];
+                printf("Bruto mensal R$%.2f\n", j);
+            }
+            
             printf("\n\n");
-            handler_usuario(lista);
+            handler_usuario(valores, fatur_brut, fatur_mes);
             break;
         
         case 4:
@@ -355,6 +420,8 @@ void handler_usuario(int lista[]){
     }
     
 }
+
+
 
 //Função para controlar dados de compras
 void controle_compras(){
@@ -365,11 +432,14 @@ void controle_compras(){
 
 //Função principal
 int main() {
-    int lista_diaria[1];
+    float valores[1];
+    float fatur_brut[3];
+    float fatur_mes;
+    int clientes_dia[3];
     
     setlocale(LC_ALL, "Portuguese");
     
-    handler_usuario(lista_diaria);
+    handler_usuario(valores, fatur_brut, fatur_mes);
 
     return 0;
 }
