@@ -150,6 +150,7 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     int quantidade;
     int quantidade_total;
     int valor_total;
+    int flag;
     
     struct compras compra;
     
@@ -159,31 +160,61 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     printf("\n\n");
     
     
-    printf("\t\tQual produto voce quer levar?\n\tdigite o id do produto que gostaria de levar ~> ");
-    scanf("%d", &id_pedido);
+    for(int i = 0; i < 999; i++){
+        printf("\t\tQual produto voce quer levar?\n\tdigite o id do produto que gostaria de levar ~> ");
+        scanf("%d", &id_pedido);
+        
+        printf("\t\tQuantos voce quer levar?\n\t~> ");
+        scanf("%d", &quantidade);
+        
+        compra.produtos[i] = produtos_tds[id_pedido -1];
+        compra.produtos[i].quantidade = quantidade;
+        compra.desconto = 1/10;
+        
+        printf("\n\n\t~~~~~~Carrinho~~~~~~~\n");
+        
+        for(int j = 0; j <= i; j++){
+            
+            printf("|| %d | %-40s | R$ %.2f unidade | %d un.| R$%.2f ||\n", 
+            compra.produtos[j].id, compra.produtos[j].nome, 
+            compra.produtos[j].valor, 
+            compra.produtos[j].quantidade, 
+            compra.produtos[j].valor * compra.produtos[j].quantidade);
+        }
+        
+        
+        printf("\n\tQuer comprar mais?\n[1/0]~>");
+        scanf("%d", &flag);
+        produtos_qtd = i+1;
+        if (flag == 0){
+            
+            break;
+        }
+        
+    }
     
-    printf("\t\tQuantos voce quer levar?\n\t~> ");
-    scanf("%d", &quantidade);
-    
-    compra.produtos[0] = produtos_tds[id_pedido -1];
-    compra.produtos[0].quantidade = quantidade;
-    compra.desconto = 1/10;
-    
-    printf("\n\n\t~~~~~~Carrinho~~~~~~~\n"
-    "|| %d | %-40s | R$ %.2f unidade | %d un.| R$%.2f ||\n", 
-    compra.produtos[0].id, compra.produtos[0].nome, compra.produtos[0].valor, compra.produtos[0].quantidade, compra.produtos[0].valor * compra.produtos[0].quantidade);
-    
-    for (int i = 0; i < produtos_qtd; i++){
+    for (int i = 0; i <= produtos_qtd; i++){
         quantidade_total += compra.produtos[i].quantidade;
-        valor_total += compra.produtos[i].valor * compra.produtos[i].quantidade;
+        compra.valor += compra.produtos[i].valor * compra.produtos[i].quantidade;
+        printf("Total: R$%.2f", compra.valor);
     }
     
     if (quantidade_total >= 3){
-        compra.valor = valor_total * compra.desconto;
+        compra.valor = compra.valor * compra.desconto;
     }
     
+    printf("\n\n\t~~~~~~Carrinho~~~~~~~\n");
+    printf("|| id | nome | Valor (R$) | Quantidade | Valor parcial|\n");
+    for(int j = 0; j < produtos_qtd; j++){
+        
+        printf("|| %d | %-40s | R$ %.2f unidade | %d un.| R$%.2f ||\n", 
+        compra.produtos[j].id, compra.produtos[j].nome, 
+        compra.produtos[j].valor, 
+        compra.produtos[j].quantidade, 
+        compra.produtos[j].valor * compra.produtos[j].quantidade);
+    }
     
-    
+    printf("Total: R$%.2f", compra.valor);
 }
 
 //Função que lida com input do usuario
