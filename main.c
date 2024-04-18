@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <conio.h>
 #include <string.h>
 #include <locale.h>
 #include <stdbool.h>
@@ -29,7 +30,7 @@ struct produto {
 
 struct compras {
     struct data data;
-    struct produto produtos;
+    struct produto produtos[999];
     
     int disconto;
     float valor;
@@ -159,7 +160,12 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     printf("\t\tQuantos voce quer levar?\n\t~> ");
     scanf("%d", &quantidade);
     
-    compra.data.dia;
+    compra.produtos[0] = produtos_tds[id_pedido -1];
+    compra.produtos[0].quantidade = quantidade;
+    
+    printf("\n\n\t~~~~~~Carrinho~~~~~~~\n"
+    "|| %d | %-40s | R$ %.2f unidade | %d un.| R$%.2f ||\n", 
+    compra.produtos[0].id, compra.produtos[0].nome, compra.produtos[0].valor, compra.produtos[0].quantidade, compra.produtos[0].valor * compra.produtos[0].quantidade);
 }
 
 //Função que lida com input do usuario
