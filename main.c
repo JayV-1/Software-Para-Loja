@@ -47,12 +47,55 @@ struct dados_anuais {
 };
 
 
+<<<<<<< Updated upstream
 
 /*numero aleatorio
 float num_random(int lower, int upper, int n) { 
     n = (rand() % (upper - lower + 1)) + lower;
     return n;
 };*/
+=======
+//Função Quick Sort para ordernar.
+void Ordenacao(struct compras a[], int esq, int dir) {
+    
+    printf("nao quebrou");
+    int i = esq;
+    int j = dir;
+    float temp = a[(esq + dir) / 2].valor; // Escolhendo o elemento do meio como pivô
+    float aux;
+
+    while (i <= j) 
+	{
+        while (a[i].valor > temp) 
+		{
+            i++;
+        }
+        while (a[j].valor < temp) 
+		{
+            j--;
+        }
+        if (i <= j)
+		{
+            aux = a[i].valor;
+            a[i].valor = a[j].valor;
+            a[j].valor = aux;
+            i++;
+            j--;
+        }
+    }
+
+    if (esq < j) 
+	{
+        Ordenacao(a, esq, j);
+    }
+    if (i < dir) 
+	{
+        Ordenacao(a, i, dir);
+    }
+}
+
+
+>>>>>>> Stashed changes
 
 // Função criadora de produtos
 struct produto criar_produto(int id, char nome[], float valor){
@@ -146,6 +189,8 @@ void listar_produtos(struct produto produtos_tds[], int produtos_qtd){
     printf("==============================================================\n");
 }
 
+
+
 //Função que lida com as compras
 void handler_compra(struct produto produtos_tds[], int produtos_qtd, struct compras compra, int dia){
     int id_pedido;
@@ -228,14 +273,21 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd, struct comp
     compra.data.hora = data_random[2];
     compra.data.min = data_random[3];
     
-    printf("Data: %d/%d/%d %d:%d\n\n", 
+    printf("Data: %d/%d/%d %d:%d\t", 
         compra.data.dia,
         compra.data.mes,
         compra.data.ano,
         compra.data.hora,
         compra.data.min);
+<<<<<<< Updated upstream
         
         //return compra;
+=======
+    
+    printf("Total: R$%.2f\n\n", compra.valor);
+    
+    return compra;
+>>>>>>> Stashed changes
 }
 
 //Função que lida com input do usuario
@@ -269,9 +321,17 @@ void handler_usuario(int lista[]){
     		    handler_compra(produtos_tds, produtos_qtd, compra, i);
     		    printf("Obrigado pela compra, gostaria de comprar mais?\n~> ");
     		    scanf("%d", &resp);
+<<<<<<< Updated upstream
     		    //printf("%f", compra.valor);
     		    
     		    if(resp == 0){
+=======
+    		    
+    		    if(resp == 0){
+    		        printf("nao quebrou");
+    		        Ordenacao(compra, 0, 50);
+    		        
+>>>>>>> Stashed changes
     		            break;
     		    }
             }
@@ -301,6 +361,8 @@ void handler_usuario(int lista[]){
     }
     
 }
+
+
 
 //Função para controlar dados de compras
 void controle_compras(){
