@@ -1,22 +1,17 @@
 #include <stdio.h>
-#include <conio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <locale.h>
-#include <stdbool.h>
-
-// Criar hora
-struct hora {
-    int horas,
-    minutos;
-};
+//#include <locale.h>
+#include <time.h> 
 
 // Struct para a data da compra
 struct data {
+    int min;
+    int hora;
     int dia;
     int mes; 
     int ano;
     
-    struct hora hora;
 };
 
 // Struct para os produtos que serão vendidos
@@ -31,8 +26,6 @@ struct produto {
 struct compras {
     struct data data;
     struct produto produtos[90];
-    
-    int desconto;
     float valor;
 };
 
@@ -45,14 +38,17 @@ struct dados_diarios {
 };
 
 struct dados_mensais {
-    
+    struct dados_diarios diario[999];
 };
 
 struct dados_anuais {
-    
+    struct dados_mensais mensal[12];
 };
 
-
+//numero aleatorio
+int num_random(int lower, int upper) { 
+    return (rand() % (upper - lower + 1)) + lower; 
+};
 
 // Função criadora de produtos
 struct produto criar_produto(int id, char nome[], float valor){
@@ -147,7 +143,7 @@ void listar_produtos(struct produto produtos_tds[], int produtos_qtd){
 }
 
 //Função que lida com as compras
-void handler_compra(struct produto produtos_tds[], int produtos_qtd){
+struct dados_mensais handler_compra(struct produto produtos_tds[], int produtos_qtd){
     int id_pedido;
     int quantidade;
     int quantidade_total;
@@ -171,7 +167,7 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
         
         compra.produtos[i] = produtos_tds[id_pedido -1];
         compra.produtos[i].quantidade = quantidade;
-        compra.desconto = 1/10;
+        compra.produtos[i].popularidade += quantidade;
         
         printf("\n\n\t~~~~~~Carrinho~~~~~~~\n");
         
@@ -182,6 +178,9 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
             compra.produtos[j].valor, 
             compra.produtos[j].quantidade, 
             compra.produtos[j].valor * compra.produtos[j].quantidade);
+            
+            quantidade_total += compra.produtos[i].quantidade;
+            compra.valor += compra.produtos[i].valor * compra.produtos[i].quantidade;
         }
         
         
@@ -195,17 +194,11 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
         
     }
     
-    for (int i = 0; i <= produtos_qtd; i++){
-        quantidade_total += compra.produtos[i].quantidade;
-        compra.valor += compra.produtos[i].valor * compra.produtos[i].quantidade;
-        printf("Total: R$%.2f", compra.valor);
-    }
-    
     if (quantidade_total >= 3){
         compra.valor = compra.valor * 9/10;
     }
     
-    printf("\n\n\t~~~~~~Carrinho~~~~~~~\n");
+    printf("\n\n\t~~~~~~~~~~~~~~~~~~~~~Checkout~~~~~~~~~~~~~~~~~~~~~\n");
     printf("|| nome | Valor (R$) | Quantidade | Valor parcial|\n");
     for(int j = 0; j < produtos_qtd; j++){
         
@@ -216,8 +209,21 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
         compra.produtos[j].valor * compra.produtos[j].quantidade);
     }
     
-    printf("Total: R$%.2f\n", compra.valor);
-}
+    printf("Total: R$%.2f\t", compra.valor);
+    
+    compra.data.ano = 2024;
+    compra.data.mes = num_random(1, 12);
+    compra.data.dia = num_random(1, 30);
+    compra.data.hora = num_random(0, 23);
+    compra.data.min = num_random(0, 59);
+    
+    printf("Data: %d/%d/%d %d:%d\n\n", 
+        compra.data.dia,
+        compra.data.mes,
+        compra.data.ano,
+        compra.data.hora,
+        compra.data.min);
+    }
 
 //Função que lida com input do usuario
 void handler_usuario(){
@@ -231,11 +237,11 @@ void handler_usuario(){
     "\t[2]-Relatótio diario\n"
     "\t[3]-Relatório mensal\n"
     "\t[4]-Sair\n"
-    "\t\t~> ");
+    "~> ");
     scanf("%d", &op);
     
     switch (op){
-        case 1:
+        default:
 
 		    //fazer a compra
 		    handler_compra(produtos_tds, produtos_qtd);
@@ -262,12 +268,6 @@ void handler_usuario(){
         
         case 4:
             break;
-        
-        /*default:
-            printf("\nOpção inválida, por favor, tente novamente.\n\n");
-            handler_usuario();
-            break;*/
-        
     }
     
 }
@@ -282,8 +282,8 @@ void controle_compras(){
 //Função principal
 int main() {
     
-    setlocale(LC_ALL, "Portuguese");
-    
+    //setlocale(LC_ALL, "Portuguese");
+    printf("aa");
     handler_usuario();
 
     return 0;
