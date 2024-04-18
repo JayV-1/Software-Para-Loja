@@ -30,14 +30,15 @@ struct compras {
 };
 
 struct dados_diarios {
-    struct data mes;
-    struct compras compras_dia;
+    struct data data;
+    struct compras compras;
     float faturamento;
     char melhor_produto[100];
     char pior_produto[100];
 };
 
 struct dados_mensais {
+    struct data data;
     struct dados_diarios diario[999];
 };
 
@@ -143,7 +144,7 @@ void listar_produtos(struct produto produtos_tds[], int produtos_qtd){
 }
 
 //Função que lida com as compras
-struct dados_mensais handler_compra(struct produto produtos_tds[], int produtos_qtd){
+void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     int id_pedido;
     int quantidade;
     int quantidade_total;
@@ -223,13 +224,18 @@ struct dados_mensais handler_compra(struct produto produtos_tds[], int produtos_
         compra.data.ano,
         compra.data.hora,
         compra.data.min);
-    }
+        
+        //return compra;
+}
 
 //Função que lida com input do usuario
 void handler_usuario(){
     int op;
     int produtos_qtd = 50;
     struct produto produtos_tds[produtos_qtd];
+    struct compras compra;
+    struct dados_diarios nove;
+    struct dados_mensais Abril;
     
     printf(
     "\nOi, o que deseja fazer?\n\n"
@@ -244,7 +250,8 @@ void handler_usuario(){
         default:
 
 		    //fazer a compra
-		    handler_compra(produtos_tds, produtos_qtd);
+		    compra = handler_compra(produtos_tds, produtos_qtd);
+		    printf("%f", compra.valor);
 		    
 		    //voltar para o menu
 		    handler_usuario();
