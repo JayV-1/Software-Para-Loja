@@ -37,6 +37,7 @@ struct produto criar_produto(int id, char nome[], float valor){
     return c;
 }
 
+//imprimir lista de produtos
 void listar_produtos(struct produto lista[], int tam){
     
     // Imprime os produtos
@@ -49,7 +50,63 @@ void listar_produtos(struct produto lista[], int tam){
     
 }
 
+void handler_usuario(struct produto lista_produtos[], int tamanho){
+    int op;
+    
+    printf(
+    "\nOlá, qual operação você deseja fazer?\n\n"
+    "\t[1]-Realizar compra\n"
+    "\t[2]-Relatótio diario\n"
+    "\t[3]-Relatório mensal\n"
+    "\t[4]-Sair\n"
+    "\t\t~> ");
+    scanf("%d", &op);
+    
+    switch (op){
+        case 1:
+            /*arq = fopen("teste.txt", "a");
+            if (arq == NULL) {
+        		printf("ERRO! na abertura");
+			}
+            nova_venda(arq);
+            fclose(arq);
+            
+            arq = fopen("teste.txt", "r");
+            
+            fclose(arq);*/
+            
+            printf("\n\n");
+		    listar_produtos(lista_produtos, tamanho);
+		    printf("\n\n");
+		    
+		    handler_usuario(lista_produtos, tamanho);
+		    break;
+	        
+	    
+	    case 2:
+	        printf("\n\n");
+		    printf("Work in Progress...");
+		    printf("\n\n");
+	        handler_usuario(lista_produtos, tamanho);
+	        break;
+
+	    case 3:
+	        printf("\n\n");
+            printf("Work in Progress...");
+            printf("\n\n");
+            handler_usuario(lista_produtos, tamanho);
+            break;
+        
+        case 4:
+            break;
+        
+    }
+    
+}
+
 int main() {
+    
+    setlocale(LC_ALL, "Portuguese");
     
     char *produtos_nome[] = {"Men's denim shorts",
     "Cotton cargo shorts",
@@ -110,7 +167,7 @@ int main() {
     //definir a quantidade de produtos que vamos criar
     int produtos_qtd = sizeof(produtos_nome) / sizeof(produtos_nome[0]);
     
-    setlocale(LC_ALL, "Portuguese");
+    
     
     struct produto produtos_tds[produtos_qtd]; // Array para armazenar os produtos
     
@@ -119,7 +176,7 @@ int main() {
         produtos_tds[i] = criar_produto(i+1, produtos_nome[i], produtos_valor[i]);
     }
     
-    listar_produtos(produtos_tds, produtos_qtd);
+    handler_usuario(produtos_tds, produtos_qtd);
 
     return 0;
 }
