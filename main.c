@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <string.h>
-//#include <locale.h>
-#include <time.h> 
+#include <locale.h>
+//#include <time.h> 
 
 // Struct para a data da compra
 struct data {
@@ -39,17 +39,20 @@ struct dados_diarios {
 
 struct dados_mensais {
     struct data data;
-    struct dados_diarios diario[999];
+    struct dados_diarios diario[1];
 };
 
 struct dados_anuais {
     struct dados_mensais mensal[12];
 };
 
-//numero aleatorio
-int num_random(int lower, int upper) { 
-    return (rand() % (upper - lower + 1)) + lower; 
-};
+
+
+/*numero aleatorio
+float num_random(int lower, int upper, int n) { 
+    n = (rand() % (upper - lower + 1)) + lower;
+    return n;
+};*/
 
 // Função criadora de produtos
 struct produto criar_produto(int id, char nome[], float valor){
@@ -144,14 +147,17 @@ void listar_produtos(struct produto produtos_tds[], int produtos_qtd){
 }
 
 //Função que lida com as compras
-void handler_compra(struct produto produtos_tds[], int produtos_qtd){
+void handler_compra(struct produto produtos_tds[], int produtos_qtd, struct compras compra, int dia){
     int id_pedido;
     int quantidade;
     int quantidade_total;
     int valor_total;
     int flag;
+    int num = 0;
+    int data_info[5] = {2024, 12, 30, 23, 59};
+    int data_random[4];
     
-    struct compras compra;
+    //struct compras compra;
     
     //listar os produtos
     printf("\n\n");
@@ -159,7 +165,7 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     printf("\n\n");
     
     
-    for(int i = 0; i < 999; i++){
+    for(int i = 0; i < 30; i++){
         printf("\t\tQual produto voce quer levar?\t(digite o id do produto que gostaria de levar)\n~> ");
         scanf("%d", &id_pedido);
         
@@ -212,11 +218,15 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
     
     printf("Total: R$%.2f\t", compra.valor);
     
+    for (int i = 0; i < 4; i++){
+            data_random[i] = (rand() % (data_info[i+1] - 0 + 1)) + 0;
+    }
+    
     compra.data.ano = 2024;
-    compra.data.mes = num_random(1, 12);
-    compra.data.dia = num_random(1, 30);
-    compra.data.hora = num_random(0, 23);
-    compra.data.min = num_random(0, 59);
+    compra.data.mes = data_random[0];
+    compra.data.dia = data_random[1];
+    compra.data.hora = data_random[2];
+    compra.data.min = data_random[3];
     
     printf("Data: %d/%d/%d %d:%d\n\n", 
         compra.data.dia,
@@ -229,7 +239,10 @@ void handler_compra(struct produto produtos_tds[], int produtos_qtd){
 }
 
 //Função que lida com input do usuario
-void handler_usuario(){
+void handler_usuario(int lista[]){
+    
+    printf("aa");
+    
     int op;
     int produtos_qtd = 50;
     struct produto produtos_tds[produtos_qtd];
@@ -247,14 +260,24 @@ void handler_usuario(){
     scanf("%d", &op);
     
     switch (op){
-        default:
-
-		    //fazer a compra
-		    compra = handler_compra(produtos_tds, produtos_qtd);
-		    printf("%f", compra.valor);
-		    
+        case 1:
+            
+            for(int i = 0; i < 49; i++){
+                int resp;
+                    
+    		    //fazer a compra
+    		    handler_compra(produtos_tds, produtos_qtd, compra, i);
+    		    printf("Obrigado pela compra, gostaria de comprar mais?\n~> ");
+    		    scanf("%d", &resp);
+    		    //printf("%f", compra.valor);
+    		    
+    		    if(resp == 0){
+    		            break;
+    		    }
+            }
+            
 		    //voltar para o menu
-		    handler_usuario();
+		    handler_usuario(lista);
 		    break;
 	    
 	    case 2:
@@ -263,14 +286,14 @@ void handler_usuario(){
 		    printf("\n\n");
 		    
 		    //voltar para o menu
-	        handler_usuario();
+	        handler_usuario(lista);
 	        break;
 
 	    case 3:
 	        printf("\n\n");
             printf("Work in Progress...");
             printf("\n\n");
-            handler_usuario();
+            handler_usuario(lista);
             break;
         
         case 4:
@@ -288,10 +311,12 @@ void controle_compras(){
 
 //Função principal
 int main() {
+    int lista_diaria[1];
     
-    //setlocale(LC_ALL, "Portuguese");
+    setlocale(LC_ALL, "Portuguese");
     printf("aa");
-    handler_usuario();
+    
+    handler_usuario(lista_diaria);
 
     return 0;
 }
